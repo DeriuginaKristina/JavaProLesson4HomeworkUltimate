@@ -11,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 public class CarServlet extends HttpServlet {
 
-    private CarRepository repository = new CarRepositoryDB();
+//    private CarRepository repository = new CarRepositoryDB();
+     private CarRepository repository = new CarRepositoryMap();
 
     // GET http://10.2.3.4:8080/cars
     // GET http://10.2.3.4:8080/cars?id=5
@@ -35,7 +37,7 @@ public class CarServlet extends HttpServlet {
             //get to find one car
             long id = Long.parseLong(idParam);//TODO insert try catch block
             Car car = repository.getCarByID(id);
-            resp.getWriter().write(car.toString()); //TODO insert try catch block
+            resp.getWriter().write(car.toString()); //TODO insert try catch block,NullPointerException
 
         }else{
             //get to find all cars
@@ -70,6 +72,12 @@ public class CarServlet extends HttpServlet {
         // TODO Домашнее задание:
         // Реализовать изменение объекта автомобиля в БД
         // (при этом меняться должна только цена)
+        String id = req.getParameter("id");
+        String price = req.getParameter("price");
+        Car car = repository.getCarByID(Long.parseLong(id));//TODO try catch number format Exception
+        car.setPrice(new BigDecimal(Long.parseLong(price)));
+        repository.update(car);
+        resp.getWriter().write(car.toString());
     }
 
     @Override
@@ -78,5 +86,9 @@ public class CarServlet extends HttpServlet {
 
         // TODO Домашнее задание:
         // Реализовать удаление автомобиля из БД по id
+        String id = req.getParameter("id");
+        repository.deleteById(Long.parseLong(id));//TODO try catch number format Exception
+        resp.getWriter().write("Сar with id: "+ id + " is deleted ");
+
     }
 }
