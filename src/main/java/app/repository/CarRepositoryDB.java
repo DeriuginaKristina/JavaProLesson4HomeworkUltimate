@@ -2,10 +2,12 @@ package app.repository;
 
 import app.domain.Car;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import static app.constants.Constants.*;
@@ -13,18 +15,32 @@ import static app.constants.Constants.*;
 public class CarRepositoryDB implements CarRepository{
     @Override
     public List<Car> getAll() {
+        List<Car> cars = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            // TODO домашнее задание
+            String query = "SELECT * FROM cars";
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+            ResultSet resultSet = statement.getResultSet();
+
+            while (resultSet.next()){
+                Long id = resultSet.getLong(1);
+                String brand = resultSet.getString(2);
+                BigDecimal price = resultSet.getBigDecimal(3);
+                int year = resultSet.getInt(4);
+                Car car = new Car(brand,price,year);
+                car.setId(id);
+                cars.add(car);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return cars;
     }
 
     @Override
     public Car getCarByID(long id) {
         try (Connection connection = getConnection()) {
-            // TODO домашнее задание
+            // TODO домашнее задание SELECT * FROM cars WHERE id = 3
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
