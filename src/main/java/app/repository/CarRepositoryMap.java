@@ -17,7 +17,7 @@ public class CarRepositoryMap implements CarRepository {
         save(new Car("Volkswagen", new BigDecimal(10000), 2010));
         save(new Car("Mazda", new BigDecimal(30000), 2015));
         save(new Car("Honda", new BigDecimal(50000), 2020));
-        save(new Car("Волга", new BigDecimal(5000), 2000));
+        save(new Car("Volga", new BigDecimal(5000), 2000));
     }
 
     @Override
