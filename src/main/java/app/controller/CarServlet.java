@@ -37,7 +37,13 @@ public class CarServlet extends HttpServlet {
             //get to find one car
             long id = Long.parseLong(idParam);//TODO insert try catch block
             Car car = repository.getCarByID(id);
-            resp.getWriter().write(car.toString()); //TODO insert try catch block,NullPointerException
+            if (car!= null){
+                resp.getWriter().write(car.toString());
+            }
+            else{
+                resp.getWriter().write("Car wich id: "+ id +" not found");
+            }
+            //TODO insert try catch block
 
         }else{
             //get to find all cars
